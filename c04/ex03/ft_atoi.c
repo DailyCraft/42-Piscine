@@ -6,23 +6,23 @@
 /*   By: dvan-hum <dvan-hum@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 14:48:48 by dvan-hum          #+#    #+#             */
-/*   Updated: 2024/07/24 11:08:22 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:17:05 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_atoi(char *str)
 {
 	int	result;
-	int	is_negative;
+	int	neg;
 
 	result = 0;
-	is_negative = 0;
+	neg = 1;
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
 		str++;
 	while (*str == '+' || *str == '-')
 	{
 		if (*str == '-')
-			is_negative = !is_negative;
+			neg = -neg;
 		str++;
 	}
 	while (*str >= '0' && *str <= '9')
@@ -31,9 +31,7 @@ int	ft_atoi(char *str)
 		result += *str - '0';
 		str++;
 	}
-	if (is_negative)
-		result *= -1;
-	return (result);
+	return (result * neg);
 }
 /*
 #include <stdio.h>

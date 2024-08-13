@@ -3,99 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_combn.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvan-hum <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dvan-hum <dvan-hum@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:08:45 by dvan-hum          #+#    #+#             */
-/*   Updated: 2024/07/17 18:26:17 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:29:39 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-int	ft_pow(int nb, int pow_nb)
+int	is_max(char *comb, int n)
 {
-	int	result;
-
-	result = nb;
-	if (pow_nb == 0)
-		return (1);
-	if (pow_nb == 1)
-		return (nb);
-	while (pow_nb > 1)
+	if (comb[--n] != '9')
+		return (0);
+	while (--n >= 0)
 	{
-		result *= nb;
-		pow_nb--;
-	}
-	return (result);
-}
-
-void	ft_putnbr(int nb, int length)
-{
-	char	letter;
-
-	length--;
-	while (length >= 0)
-	{
-		letter = nb / ft_pow(10, length) % 10 + 48;
-		write(1, &letter, 1);
-		nb -= nb / ft_pow(10, length) % 10 * ft_pow(10, length);
-		length--;
-	}
-}
-
-int	is_sorted(int nb, int length)
-{
-	int	i;
-	int	digit;
-
-	i = 0;
-	digit = 10;
-	while (i < length)
-	{
-		if (nb % 10 >= digit)
+		if (comb[n] != comb[n + 1] - 1)
 			return (0);
-		digit = nb % 10;
-		nb /= 10;
-		i++;
 	}
 	return (1);
 }
 
-int	get_max(int length)
+void	recursive(char *comb, int n, int current)
 {
-	int	value;
-	int	i;
-	int	j;
-
-	value = 0;
-	j = 0;
-	i = 9;
-	while (j < length)
+	if (current == n)
 	{
-		value += i * ft_pow(10, 9 - i);
-		i--;
-		j++;
+		write(1, comb, n);
+		if (!is_max(comb, n))
+			write(1, ", ", 2);
+		return ;
 	}
-	return (value);
+	if (current == 0)
+		comb[0] = '0';
+	else
+		comb[current] = comb[current - 1] + 1;
+	while (comb[current] <= '9' - n + current + 1)
+	{
+		recursive(comb, n, current + 1);
+		comb[current]++;
+	}
 }
 
 void	ft_print_combn(int n)
 {
-	int	value;
-	int	max;
+	char	comb[9];
 
-	value = 0;
-	max = get_max(n);
-	while (value <= max)
-	{
-		if (is_sorted(value, n))
-		{
-			ft_putnbr(value, n);
-			if (value == max)
-				return ;
-			else
-				write(1, ", ", 2);
-		}
-		value++;
-	}
+	recursive(comb, n, 0);
 }

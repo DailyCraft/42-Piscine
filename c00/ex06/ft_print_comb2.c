@@ -3,58 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_comb2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvan-hum <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dvan-hum <dvan-hum@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 09:57:17 by dvan-hum          #+#    #+#             */
-/*   Updated: 2024/07/17 16:04:49 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2024/08/12 14:42:15 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-void	plus_combs(char comb1[], char comb2[])
+void	print_comb(int comb)
 {
-	if (comb2[1] < '9')
-		comb2[1]++;
-	else
-	{
-		comb2[1] = '0';
-		if (comb2[0] < '9')
-			comb2[0]++;
-		else
-		{
-			comb2[0] = '0';
-			if (comb1[1] < '9')
-				comb1[1]++;
-			else
-			{
-				comb1[1] = '0';
-				comb1[0]++;
-			}
-		}
-	}
+	char	c;
+
+	c = comb / 10 + '0';
+	write(1, &c, 1);
+	c = comb % 10 + '0';
+	write(1, &c, 1);
 }
 
 void	ft_print_comb2(void)
 {
-	char	comb1[2];
-	char	comb2[2];
+	int	first;
+	int	second;
+	int	is_first_write;
 
-	comb1[0] = '0';
-	comb1[1] = '0';
-	comb2[0] = '0';
-	comb2[1] = '1';
-	while (comb1[0] != '9' || comb1[1] != '8'
-		|| comb2[0] != '9' || comb2[1] != '9')
+	is_first_write = 1;
+	first = 0;
+	while (first <= 98)
 	{
-		if (comb1[0] * 10 + comb1[1] < comb2[0] * 10 + comb2[1])
+		second = first + 1;
+		while (second <= 99)
 		{
-			write(1, comb1, 2);
+			if (!is_first_write)
+				write(1, ", ", 2);
+			is_first_write = 0;
+			print_comb(first);
 			write(1, " ", 1);
-			write(1, comb2, 2);
-			write(1, ", ", 2);
+			print_comb(second);
+			second++;
 		}
-		plus_combs(comb1, comb2);
+		first++;
 	}
-	write(1, "98 99", 5);
 }

@@ -3,49 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_comb.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvan-hum <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dvan-hum <dvan-hum@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 08:57:19 by dvan-hum          #+#    #+#             */
-/*   Updated: 2024/07/23 18:32:03 by dvan-hum         ###   ########.fr       */
+/*   Updated: 2024/08/12 14:24:34 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-void	comb_plus(char comb[])
-{
-	if (comb[2] < '9')
-		comb[2]++;
-	else
-	{
-		comb[2] = '0';
-		if (comb[1] < '9')
-			comb[1]++;
-		else
-		{
-			comb[1] = '0';
-			comb[0]++;
-		}
-	}
-}
-
 void	ft_print_comb(void)
 {
 	char	comb[3];
+	int		is_first_write;
 
+	is_first_write = 1;
 	comb[0] = '0';
-	comb[1] = '1';
-	comb[2] = '2';
-	while (comb[0] < '7' || (comb[0] == '7' && comb[1] < '8' && comb[2] < '9'))
+	while (comb[0] <= '7')
 	{
-		if (comb[0] < comb[1] && comb[1] < comb[2])
+		comb[1] = comb[0] + 1;
+		while (comb[1] <= '8')
 		{
-			write(1, &comb, 3);
-			write(1, ", ", 2);
+			comb[2] = comb[1] + 1;
+			while (comb[2] <= '9')
+			{
+				if (!is_first_write)
+					write(1, ", ", 2);
+				is_first_write = 0;
+				write(1, comb, 3);
+				comb[2]++;
+			}
+			comb[1]++;
 		}
-		comb_plus(comb);
+		comb[0]++;
 	}
-	write(1, "789", 3);
 }
 /*
 int main()
