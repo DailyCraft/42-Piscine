@@ -1,38 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_push_back.c                                :+:      :+:    :+:   */
+/*   ft_list_foreach.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvan-hum <dvan-hum@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/05 13:26:15 by dvan-hum          #+#    #+#             */
-/*   Updated: 2024/08/13 16:10:46 by dvan-hum         ###   ########.fr       */
+/*   Created: 2024/08/13 17:34:20 by dvan-hum          #+#    #+#             */
+/*   Updated: 2024/08/13 20:43:57 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <stdio.h>
 #include "ft_list.h"
 
-void	ft_list_push_back(t_list **begin_list, void *data)
+void	ft_list_foreach(t_list *begin_list, void (*f)(void *))
 {
-	t_list	*current;
+	t_list	*list_ptr;
 
-	if (*begin_list == NULL)
+	list_ptr = begin_list;
+	while (list_ptr != NULL)
 	{
-		*begin_list = ft_create_elem(data);
-		return ;
+		f(list_ptr->data);
+		list_ptr = list_ptr->next;
 	}
-	current = *begin_list;
-	while (current->next != NULL)
-		current = current->next;
-	current->next = ft_create_elem(data);
 }
 /*
+#include <stdio.h>
+void print(void *data)
+{
+	printf("%s\n", (char *) data);
+}
+
 int main()
 {
 	t_list *list = ft_create_elem("Hello");
 	list->next = ft_create_elem("world");
-	ft_list_push_back(&list, "!");
-	list = NULL;
-	ft_list_push_back(&list, "Hello");
+	list->next->next = ft_create_elem("!");
+	ft_list_foreach(list, print);
 }*/

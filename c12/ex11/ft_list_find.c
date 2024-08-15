@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_push_back.c                                :+:      :+:    :+:   */
+/*   ft_list_find.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvan-hum <dvan-hum@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/05 13:26:15 by dvan-hum          #+#    #+#             */
-/*   Updated: 2024/08/13 16:10:46 by dvan-hum         ###   ########.fr       */
+/*   Created: 2024/08/13 20:58:12 by dvan-hum          #+#    #+#             */
+/*   Updated: 2024/08/13 21:01:34 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "ft_list.h"
 
-void	ft_list_push_back(t_list **begin_list, void *data)
+t_list	*ft_list_find(t_list *begin_list, void *data_ref, int (*cmp)())
 {
-	t_list	*current;
+	t_list	*list_ptr;
 
-	if (*begin_list == NULL)
+	list_ptr = begin_list;
+	while (list_ptr != NULL)
 	{
-		*begin_list = ft_create_elem(data);
-		return ;
+		if (cmp(list_ptr->data, data_ref) == 0)
+			return (list_ptr);
+		list_ptr = list_ptr->next;
 	}
-	current = *begin_list;
-	while (current->next != NULL)
-		current = current->next;
-	current->next = ft_create_elem(data);
+	return (NULL);
 }
-/*
-int main()
-{
-	t_list *list = ft_create_elem("Hello");
-	list->next = ft_create_elem("world");
-	ft_list_push_back(&list, "!");
-	list = NULL;
-	ft_list_push_back(&list, "Hello");
-}*/

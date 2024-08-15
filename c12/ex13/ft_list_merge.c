@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_push_back.c                                :+:      :+:    :+:   */
+/*   ft_list_merge.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvan-hum <dvan-hum@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/05 13:26:15 by dvan-hum          #+#    #+#             */
-/*   Updated: 2024/08/13 16:10:46 by dvan-hum         ###   ########.fr       */
+/*   Created: 2024/08/13 21:21:53 by dvan-hum          #+#    #+#             */
+/*   Updated: 2024/08/13 21:47:08 by dvan-hum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "ft_list.h"
 
-void	ft_list_push_back(t_list **begin_list, void *data)
+void	ft_list_merge(t_list **begin_list1, t_list *begin_list2)
 {
-	t_list	*current;
+	t_list	*list_ptr;
 
-	if (*begin_list == NULL)
+	if (*begin_list1 == NULL)
 	{
-		*begin_list = ft_create_elem(data);
+		*begin_list1 = begin_list2;
 		return ;
 	}
-	current = *begin_list;
-	while (current->next != NULL)
-		current = current->next;
-	current->next = ft_create_elem(data);
+	list_ptr = *begin_list1;
+	while (list_ptr->next != NULL)
+		list_ptr = list_ptr->next;
+	list_ptr->next = begin_list2;
 }
-/*
-int main()
-{
-	t_list *list = ft_create_elem("Hello");
-	list->next = ft_create_elem("world");
-	ft_list_push_back(&list, "!");
-	list = NULL;
-	ft_list_push_back(&list, "Hello");
-}*/
